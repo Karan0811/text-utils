@@ -3,24 +3,46 @@ import { useState } from 'react';
 
 export default function TextForm(props) {
     const [text,setText] = useState("")
-    // const [word,setWord] = useState((text.split(' ')).length)
+    const [word,setWord] = useState(0)
+    const [time,setTime] = useState(0)
+    
     // const [letter,setLetter] = useState(text.length)
 
     let changeToUpperCase = () => {
         let newText = text.toUpperCase()
         setText(newText)
+        props.showAlert("Upper Case Done",'success')
+        setTimeout(() => {
+          props.setAlert(null)
+        }, 1500);
     }
     let changeToLowerCase = () => {
         let newText = text.toLowerCase()
         setText(newText)
+        props.showAlert("Lower Case Done",'success')
+        setTimeout(() => {
+          props.setAlert(null)
+        }, 1500);
     }
+    let clearText = () => {
+      setText('')
+      setWord(0)
+      setTime(0)
+      props.showAlert("Clear Text Done",'success')
+      setTimeout(() => {
+        props.setAlert(null)
+      }, 1500);
+  }
     let handleChange = (event) => {
         let text = event.target.value
         setText(text)
-        // let letterLength = (text).length
-        // let wordLength = (text.split(' ')).length
+        let wordLength = (text.split(' '))
+        var filtered = wordLength.filter(function(value, index, arr){ 
+          return value !== '';
+      });
         // setLetter(letterLength)
-        // setWord(wordLength)
+        setWord(filtered.length)
+        setTime((filtered.length) * 0.008)
     }
   return (
     <>
@@ -37,12 +59,13 @@ export default function TextForm(props) {
         ></textarea>
       </div>
       <button type="button" className="btn btn-primary mx-2" onClick={changeToUpperCase}>UpperCase</button>
-      <button type="button" className="btn btn-primary" onClick={changeToLowerCase}>LowerCase</button>
+      <button type="button" className="btn btn-primary mx-2" onClick={changeToLowerCase}>LowerCase</button>
+      <button type="button" className="btn btn-primary" onClick={clearText}>Clear Text</button>
       </div>
       <div className="container my-3" style={{color : props.mode === 'dark' ? 'white' : 'black'}}>
-      <p>Word Count = {(text.split(' ')).length}</p>
+      <p>Word Count = {word}</p>
       <p>Letter Count = {(text).length}</p>
-      <p>Time to Read = {(text.split(' ')).length * 0.008}</p>
+      <p>Time to Read = {time}</p>
       </div>
       <div className="container my-3" style={{color : props.mode === 'dark' ? 'white' : 'black'}}>
       <h3>
