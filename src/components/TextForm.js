@@ -34,9 +34,7 @@ export default function TextForm(props) {
     }, 1500);
   };
   const handleCopy = () => {
-    var text = document.getElementById('exampleFormControlTextarea1');
-    text.select();
-    navigator.clipboard.writeText(text.value);
+    navigator.clipboard.writeText(text);
     props.showAlert('Text Copied', 'success');
     setTimeout(() => {
       props.setAlert(null);
@@ -54,7 +52,7 @@ export default function TextForm(props) {
   let handleChange = (event) => {
     let text = event.target.value;
     setText(text);
-    let wordLength = text.split(' ');
+    let wordLength = text.split(/\s+/);
     var filtered = wordLength.filter(function (value, index, arr) {
       return value !== '';
     });
